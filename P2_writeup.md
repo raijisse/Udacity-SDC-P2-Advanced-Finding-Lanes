@@ -19,9 +19,9 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./output_images/undistorded.jpg "Undistorted"
+[image1]: ./output_images/undistorded_chessboard.jpg "Undistorted"
 [image2]: ./output_images/undistorded_example.jpg "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
+[image3]: ./output_images/contribs.jpg "Binary Example"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
@@ -65,11 +65,21 @@ The code to demonstrate this step in included in the cell 2 and 3 of the noteboo
 
 If we zoom in a bit, we can see that the traffic sign on the left looks a bit flattened.
 
+
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+In order to generate a binarized image that will help us detect lanes robustly, I implemented a combination of color and gradient thresholds. The code is detailed in the `image_utils.py` file (from line 86 to 136). I implemented the following pipeline:
+- Apply a hard thresholding on the **Sobel operator**
+- Apply a gradient magnitude thresholding
+  - Both previous thresholding are enough to get a robust identification of image areas with a strong change in color. Note that we are looking for light colored (most of the time white or yellow) on a dark background : asphalt, concrete... Hence, the gradient around the lines is supposed to be strong.
+- Apply gradient direction thresholding, although I believe this step is not as insightful than the previous two. We can set it to `False` in my function.
+- Transform image in the HLS color space and apply S channel thresholding
+
+Here's an example of my output for this step:
 
 ![alt text][image3]
+
+# TO CONTINUE
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
