@@ -317,13 +317,17 @@ def search_around_poly(binary_warped, left_fit, right_fit):
     return  left_fitx, left_fit, right_fitx, right_fit
 
 
-def measure_curvature(left_fit_cr, right_fit_cr):
+def measure_curvature(left_fit, right_fit, leftx, rightx, ploty):
     '''
     Calculates the curvature of polynomial functions in meters.
     '''
     # Define conversions in x and y from pixels space to meters
     ym_per_pix = 20/720 # meters per pixel in y dimension
     xm_per_pix = 3.7/800 # meters per pixel in x dimension
+    
+    # Fit new polynomials
+    left_fit_cr = np.polyfit(ploty*ym_per_pix, leftx*xm_per_pix, 2)
+    right_fit_cr = np.polyfit(ploty*ym_per_pix, rightx*xm_per_pix, 2)    
 
     # Define y-value where we want radius of curvature
     # We'll choose the maximum y-value, corresponding to the bottom of the image
@@ -335,8 +339,8 @@ def measure_curvature(left_fit_cr, right_fit_cr):
 
 
     # Calculate vehicle center
-    left_lane_bottom = (left_fit_cr[0]*y_eval)**2 + left_fit_cr[0]*y_eval + left_fit_cr[2]
-    right_lane_bottom = (right_fit_cr[0]*y_eval)**2 + right_fit_cr[0]*y_eval + right_fit_cr[2]
+    left_lane_bottom = left_fit[0]*y_eval**2 + left_fit[1]*y_eval + left_fit[2]
+    right_lane_bottom = right_fit[0]*y_eval**2 + right_fit[1]*y_eval + right_fit[2]
 
     # Computer lane center
     lane_center = (left_lane_bottom + right_lane_bottom)/2.
