@@ -138,7 +138,7 @@ Here is an example of my result on a test image:
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's my [result](./output_videos/output_project.mp4)
+Here's my [result](./output_videos/)
 
 ---
 
